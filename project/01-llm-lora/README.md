@@ -34,4 +34,4 @@ sbatch finetune.sbatch --mode full
 
 ## exercises
 
-- Experiment with hyperparameters such as rank, matrics, learning rate, etc.
+- Experiment with hyperparameters such as rank, matrices, learning rate, etc.
