@@ -5,6 +5,18 @@ At the end of this, you should have validated your environment for running LLM i
 
 Before starting, read through the [SSH and GIT environment setup instructions](https://notes.dsgt-arc.org/applied-methods/setup/ssh-git/).
 We will assume that you have a valid `pace` and `pace-interactive` SSH configuration setup alongside the GATech VPN access.
+Also ensure the following variables are set in your environment, preferably in your `~/.bashrc` or similar startup script:
+
+```bash
+# to make pip-installable tools available
+export PATH=$HOME/.local/bin:$PATH
+# to redirect uv and huggingface cache to scratch
+export XDG_CACHE_HOME="$HOME/scratch/.cache"
+# to redirect ollama models to scratch
+export OLLAMA_MODELS=$HOME/scratch/ollama_models
+```
+
+Note that the scratch directory has a 45 day limit on file inactivity before automatic deletion.
 
 ## ollama
 
@@ -57,11 +69,12 @@ ollama serve
 ```
 
 In a new terminal window, we can run the client to download and run a model.
+Models can be found on the [ollama model registry](https://ollama.com/models).
 Create a new session via `ssh pace-interactive`.
 If you are using tmux, create a new window with `ctrl-b c` and switch panes with `ctrl-b n`.
 
 ```bash
-# in the client terminal window     
+# in the client terminal window
 module load ollama
 ollama run gemma3:4b
 ```
@@ -209,3 +222,79 @@ Average stats:
 * What is the largest model you can run with ollama on a RTX6000 GPU?
 * Compare the performance metrics of a model family of your choice (e.g. gemma3 or phi4) across parameter sizes and quantization levels.
 
+## vllm
+
+vLLM is a high-throughput and memory-efficient inference engine, and it supports a variety of model formats.
+Read through the [vllm quickstart documentation](https://docs.vllm.ai/en/latest/getting_started/quickstart.html#offline-batched-inference).
+
+Running vLLM on PACE requires installing it to a virtual environment.
+Here we will run the tool dynamically via `uvx`.
+Behind this scenes, `uvx` caches the packages in the scratch directory and then runs the script entrypoint in an isolated virtual environment.
+We don't use `uv tool` because `vllm` has a lot of dependencies that would get installed to `uv tool dir`.
+This can be changed via the `UV_TOOL_DIR` environment variable, but this means you will need to ocassionally reinstall shared tools.
+It is therefore easier to utilize `uvx` for heavy tools like this.
+
+Create a new interactive PACE session with GPU support as before.
+Then benchmark a model with vllm, which will download the model weights to the huggingface cache in scratch.
+Models can be found on the [huggingface model hub](https://huggingface.co/models?search=gemma3).
+
+```bash
+uvx vllm bench throughput \
+    --model Qwen/Qwen3-0.6B \
+    --input-len 32 \
+    --output-len 1 \
+    --max-model-len 1024
+
+Throughput: 47.94 requests/s, 1579.00 total tokens/s, 47.94 output tokens/s
+Total num prompt tokens:  31934
+Total num output tokens:  1000
+```
+
+Feel free to play around with different models.
+Your milage will vary on a RTX6000 because of modern models being optimized for newer cuda features.
+
+We can then serve this and curl:
+
+```bash
+# in one terminal window
+MODEL="Qwen/Qwen3-0.6B"
+uvx vllm serve $MODEL
+
+# in another we can curl
+curl -X POST http://localhost:8000/v1/completions \
+    -H "Content-Type: application/json" \
+    -d "{\"model\":\"$MODEL\",\"prompt\":\"Hi\"}" | jq
+
+{
+  "id": "cmpl-5b1b2dbc4e734b32af410c6133eb4969",
+  "object": "text_completion",
+  "created": 1762131145,
+  "model": "Qwen/Qwen3-0.6B",
+  "choices": [
+    {
+      "index": 0,
+      "text": "est: An object is placed in a glass of water at a temperature of ",
+      "logprobs": null,
+      "finish_reason": "length",
+      "stop_reason": null,
+      "token_ids": null,
+      "prompt_logprobs": null,
+      "prompt_token_ids": null
+    }
+  ],
+  "service_tier": null,
+  "system_fingerprint": null,
+  "usage": {
+    "prompt_tokens": 1,
+    "total_tokens": 17,
+    "completion_tokens": 16,
+    "prompt_tokens_details": null
+  },
+  "kv_transfer_params": null
+}
+```
+
+### exercises
+
+* Try running a few different models with vllm and see how large of a model you can run.
+* Try requesting different hardware and see how that affects performance.
