@@ -216,6 +216,8 @@ Average stats:
 ----------------------------------------------------
 ```
 
+### scripting ollama inference
+
 Finally, run the sbatch script to automate running ollama inside of a batch script.
 The script will start the ollama server, wait for it to be ready, and then run inference via both the ollama CLI and the OpenAI-compatible API.
 
