@@ -156,7 +156,6 @@ uv tool install https://github.com/dsgt-arc/ollama-benchmark.git
 
 This will install the `ollama-benchmark` tool that should be accessible from your PATH.
 
-
 ```bash
 $  nvidia-smi
 Sun Nov  2 17:45:28 2025
@@ -217,10 +216,49 @@ Average stats:
 ----------------------------------------------------
 ```
 
+Finally, run the sbatch script to automate running ollama inside of a batch script.
+The script will start the ollama server, wait for it to be ready, and then run inference via both the ollama CLI and the OpenAI-compatible API.
+
+```bash
+sbatch ollama.sbatch
+```
+
+Read through the resuls printed to the logging output directory under `logs/ollama`.
+
+```
++ echo 'running inference via ollama frontend'
+running inference via ollama frontend
++ ollama run gemma3:270m 'write a haiku about georgia tech'
+[GIN] 2025/11/02 - 21:57:06 | 200 |      25.413µs |       127.0.0.1 | HEAD     "/"
+[GIN] 2025/11/02 - 21:57:06 | 200 |   77.420919ms |       127.0.0.1 | POST     "/api/show"
+Golden sunbeam's grace,
+Silicon dreams in the air,
+Future's bright and bold.
+[GIN] 2025/11/02 - 21:57:06 | 200 |   175.41601ms |       127.0.0.1 | POST     "/api/generate"
+
+
++ echo 'running inference via openai api frontend'
+running inference via openai api frontend
++ python_openai_query 44901 gemma3:270m 'write a haiku about georgia tech'
++ local port=44901
++ local model=gemma3:270m
++ local 'prompt=write a haiku about georgia tech'
++ uv run -
+[GIN] 2025/11/02 - 21:57:13 | 200 |  172.747687ms |       127.0.0.1 | POST     "/v1/chat/completions"
+Golden light on a screen,
+Code and innovation's breath,
+Future's bright, a dream.
+
++ echo 'done!'
+done!
+```
+
 ### exercises
 
-* What is the largest model you can run with ollama on a RTX6000 GPU?
-* Compare the performance metrics of a model family of your choice (e.g. gemma3 or phi4) across parameter sizes and quantization levels.
+- What is the largest model in the Gemma3 family that you can run with ollama on a RTX6000 GPU?
+- Compare the performance metrics of a model family of your choice (e.g. gemma3 or phi4) across parameter sizes and quantization levels.
+- Implement file-based configuration for the sbatch script to allow switching of the model and prompt without modifying the script directly.
+  One way to do this is to use `yq` (`uv tool install yq`) to read from a YAML configuration file in bash.
 
 ## vllm
 
@@ -237,6 +275,8 @@ It is therefore easier to utilize `uvx` for heavy tools like this.
 Create a new interactive PACE session with GPU support as before.
 Then benchmark a model with vllm, which will download the model weights to the huggingface cache in scratch.
 Models can be found on the [huggingface model hub](https://huggingface.co/models?search=gemma3).
+You may need to set up a Huggingface account and accept model licenses to download some models.
+If this is the case, export `HF_TOKEN` in your `~/.bashrc` as well.
 
 ```bash
 uvx vllm bench throughput \
@@ -296,5 +336,4 @@ curl -X POST http://localhost:8000/v1/completions \
 
 ### exercises
 
-* Try running a few different models with vllm and see how large of a model you can run.
-* Try requesting different hardware and see how that affects performance.
+- Implement a sbatch script to run vllm serve using the `ollama.sbatch` as a template.
