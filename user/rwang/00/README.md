@@ -23,11 +23,59 @@ Here are a few options, and I'll provide examples of each. **Please tell me whic
 ---
 ### 2. Compare performance metrics of gemma3 family across parameter sizes and quantization levels
 **Comparing across parameter sizes**  
-- gemma3:270m (292MB)
-- gemma3:4b (3.3GB)
-- gemma3:27b (17GB)  
+Larger model sizes clearly show slower prompt processing, generation speed, and combined speed.  
+- gemma3:270m (292MB) 
+```
+        Model: gemma3:270m
+        Performance Metrics:
+            Prompt Processing:  1896.06 tokens/sec
+            Generation Speed:   215.87 tokens/sec
+            Combined Speed:     349.98 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       16
+            Generated Tokens:   21
+            Model Load Time:    0.04s
+            Processing Time:    0.01s
+            Generation Time:    0.10s
+            Total Time:         0.15s
+```
   
-**Comparing across quantization levels**
+- gemma3:4b (3.3GB)  
+```
+        Model: gemma3:4b
+        Performance Metrics:
+            Prompt Processing:  1635.97 tokens/sec
+            Generation Speed:   101.37 tokens/sec
+            Combined Speed:     170.56 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       16
+            Generated Tokens:   21
+            Model Load Time:    0.06s
+            Processing Time:    0.01s
+            Generation Time:    0.21s
+            Total Time:         0.28s
+```
+
+- gemma3:27b (17GB)  
+```
+        Model: gemma3:27b
+        Performance Metrics:
+            Prompt Processing:  429.68 tokens/sec
+            Generation Speed:   27.64 tokens/sec
+            Combined Speed:     46.42 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       16
+            Generated Tokens:   21
+            Model Load Time:    0.06s
+            Processing Time:    0.04s
+            Generation Time:    0.76s
+            Total Time:         0.86s
+```
+  
+**Comparing across quantization levels** (for some reason ollama didn't recognize any quantized model tags so i didn't do this :) )
 - gemma3:4b-it-qat (4GB)
 - gemma3:4b-it-q4_K_M (3.3GB)
 - gemma3:4b-it-q8_0 (5GB)
