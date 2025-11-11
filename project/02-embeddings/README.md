@@ -65,7 +65,7 @@ uv sync --all-extras
 
 # Navigate to project directory and link it for easier access (optional)
 # This step assumes you are in your project directory
-cd /storage/home/hcoda1/9/mgustineli3/dsgt-arc/fall-2025-interest-group-projects/user/mgustineli/project/01-llm-lora/
+cd ~/dsgt-arc/fall-2025-interest-group-projects/user/<your-user-name>
 ln -s $UV_PROJECT_ENVIRONMENT $(pwd)/.venv
 ```
 
