@@ -8,6 +8,12 @@ This notebook demonstrates a pipeline for leveraging **pretrained deep learning 
 
 To stay within your home directory quota, we'll create the virtual environment in the fast, temporary file system located at **`$TMPDIR`**.
 
+Make sure to add this to your `~/.bashrc` file:
+```bash
+# Set a temporary directory
+export TMPDIR=${TMPDIR:-/tmp}
+```
+
 ### Option A. Manual Virtual Environment Setup (Recommended for Jupyter Users)
 
 This approach creates a reusable `.venv` in `$TMPDIR` that you can activate manually and connect to your Jupyter notebook.
@@ -22,22 +28,23 @@ uv venv $TMPDIR/.venv
 source $TMPDIR/.venv/bin/activate
 ```
 
-#### 2. **Navigate to the Project Directory and Link Dependencies:**
+#### 2. **Navigate to the `user/` directory and link dependencies:**
 
-Navigate to your project directory and create a **symbolic link** named `.venv` that points back to the environment in `$TMPDIR`.
+Navigate to your user directory and create a **symbolic link** named `.venv` that points back to the environment in `$TMPDIR`.
 
-Assuming your current project directory is:
-`/storage/home/hcoda1/9/mgustineli3/dsgt-arc/fall-2025-interest-group-projects/user/mgustineli/project/01-llm-lora/`
+Assuming your current repo user directory is:
+`~/dsgt-arc/fall-2025-interest-group-projects/user/<your-user-name>`
 
 ```bash
 # Navigate to your project directory
-cd /storage/home/hcoda1/9/mgustineli3/dsgt-arc/fall-2025-interest-group-projects/user/mgustineli/project/01-llm-lora/
+cd ~/dsgt-arc/fall-2025-interest-group-projects/user/<your-user-name>
 
-# Create a symbolic link named .venv in your project folder, 
+# Create a symbolic link named .venv in your user folder, 
 # pointing to the actual environment in $TMPDIR
 ln -s $TMPDIR/.venv $(pwd)/.venv
 
 # Install project dependencies defined in pyproject.toml
+cd ~/dsgt-arc/fall-2025-interest-group-projects/project/02-embeddings
 uv pip install -e .
 ```
 
