@@ -1,0 +1,2 @@
+model: gemma3:270m
+prompt: write a haiku about georgia tech

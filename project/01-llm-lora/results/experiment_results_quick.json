@@ -14,17 +14,17 @@
   },
   "full_finetuning": {
     "experiment_name": "Full Fine-Tuning",
-    "training_time": 117.93847894668579,
-    "train_loss": 0.2786263016874573,
-    "eval_loss": 0.4949192404747009,
-    "eval_accuracy": 0.8855534709193246,
+    "training_time": 115.9722855091095,
+    "train_loss": 0.27694927343863823,
+    "eval_loss": 0.5004221796989441,
+    "eval_accuracy": 0.8864915572232646,
     "total_params": 124647170,
     "trainable_params": 124647170,
     "trainable_percentage": 100.0
   },
   "lora": {
     "experiment_name": "LoRA Fine-Tuning",
-    "training_time": 86.77565693855286,
+    "training_time": 85.63708996772766,
     "train_loss": 0.3342042471213585,
     "eval_loss": 0.31564420461654663,
     "eval_accuracy": 0.8808630393996247,
@@ -33,9 +33,9 @@
     "trainable_percentage": 1.269844199305031
   },
   "comparison": {
-    "speedup": 1.3591194017718564,
+    "speedup": 1.3542296399003475,
     "param_reduction": 77.75077768137113,
-    "accuracy_diff": -0.004690431519699834,
-    "accuracy_retention_pct": 99.47033898305084
+    "accuracy_diff": -0.0056285178236398226,
+    "accuracy_retention_pct": 99.36507936507935
   }
 }

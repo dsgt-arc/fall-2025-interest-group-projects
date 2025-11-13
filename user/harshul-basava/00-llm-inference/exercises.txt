@@ -1,0 +1,170 @@
+Q: What is the largest model in the Gemma3 family that you can run with ollama on a RTX6000 GPU?
+A: I was able to load the 27b parameter model from the Gemma3 family using the RTX6000 (though I specified 32 GB memory).
+
+Q: Compare the performance metrics of a model family of your choice (e.g. gemma3 or phi4) across parameter sizes and quantization levels.
+A: See below
+
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:270m
+        Performance Metrics:
+            Prompt Processing:  1987.56 tokens/sec
+            Generation Speed:   222.64 tokens/sec
+            Combined Speed:     306.86 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       17
+            Generated Tokens:   38
+            Model Load Time:    0.04s
+            Processing Time:    0.01s
+            Generation Time:    0.17s
+            Total Time:         0.22s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:1b
+        Performance Metrics:
+            Prompt Processing:  1744.80 tokens/sec
+            Generation Speed:   153.25 tokens/sec
+            Combined Speed:     156.24 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       17
+            Generated Tokens:   794
+            Model Load Time:    0.06s
+            Processing Time:    0.01s
+            Generation Time:    5.18s
+            Total Time:         5.25s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:1b-it-qat
+        Performance Metrics:
+            Prompt Processing:  1181.04 tokens/sec
+            Generation Speed:   141.68 tokens/sec
+            Combined Speed:     145.52 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       17
+            Generated Tokens:   549
+            Model Load Time:    0.04s
+            Processing Time:    0.01s
+            Generation Time:    3.87s
+            Total Time:         3.93s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:4b
+        Performance Metrics:
+            Prompt Processing:  1567.80 tokens/sec
+            Generation Speed:   86.49 tokens/sec
+            Combined Speed:     88.87 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       17
+            Generated Tokens:   584
+            Model Load Time:    0.06s
+            Processing Time:    0.01s
+            Generation Time:    6.75s
+            Total Time:         6.83s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:4b-it-qat
+        Performance Metrics:
+            Prompt Processing:  1094.24 tokens/sec
+            Generation Speed:   83.89 tokens/sec
+            Combined Speed:     85.70 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       17
+            Generated Tokens:   726
+            Model Load Time:    0.04s
+            Processing Time:    0.02s
+            Generation Time:    8.65s
+            Total Time:         8.71s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:12b
+        Performance Metrics:
+            Prompt Processing:  773.62 tokens/sec
+            Generation Speed:   41.45 tokens/sec
+            Combined Speed:     42.34 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       17
+            Generated Tokens:   749
+            Model Load Time:    0.06s
+            Processing Time:    0.02s
+            Generation Time:    18.07s
+            Total Time:         18.16s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:12b-it-qat
+        Performance Metrics:
+            Prompt Processing:  1461.31 tokens/sec
+            Generation Speed:   40.48 tokens/sec
+            Combined Speed:     42.53 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       34
+            Generated Tokens:   651
+            Model Load Time:    0.04s
+            Processing Time:    0.02s
+            Generation Time:    16.08s
+            Total Time:         16.15s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:27b
+        Performance Metrics:
+            Prompt Processing:  386.20 tokens/sec
+            Generation Speed:   21.75 tokens/sec
+            Combined Speed:     22.35 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       17
+            Generated Tokens:   580
+            Model Load Time:    0.07s
+            Processing Time:    0.04s
+            Generation Time:    26.67s
+            Total Time:         26.78s
+----------------------------------------------------
+        
+Average stats:
+
+----------------------------------------------------
+        Model: gemma3:27b-it-qat
+        Performance Metrics:
+            Prompt Processing:  783.68 tokens/sec
+            Generation Speed:   22.21 tokens/sec
+            Combined Speed:     23.32 tokens/sec
+
+        Workload Stats:
+            Input Tokens:       34
+            Generated Tokens:   659
+            Model Load Time:    0.09s
+            Processing Time:    0.04s
+            Generation Time:    29.67s
+            Total Time:         29.80s
+----------------------------------------------------
+
+Q: Implement file-based configuration for the sbatch script to allow switching of the model and prompt without modifying the script directly. One way to do this is to use yq (uv tool install yq) to read from a YAML configuration file in bash.
+A: See config.yaml and ollama.sbatch!
