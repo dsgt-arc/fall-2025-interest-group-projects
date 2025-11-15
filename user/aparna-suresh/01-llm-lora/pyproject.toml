@@ -1,0 +1,22 @@
+[project]
+name = "01-llm-lora"
+version = "0.1.0"
+description = "Fine-tuning Large Language Models with LoRA"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "hyperopt",
+    "adapters",
+    "datasets",
+    "scikit-learn>=1.7.2",
+    "torch",
+    "transformers[torch]",
+]
+scripts = { "finetune" = "finetune:main" }
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["finetune"]
