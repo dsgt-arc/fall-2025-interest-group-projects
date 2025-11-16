@@ -1,0 +1,4 @@
+model_name,prompt_speed,generation_speed,combined_speed
+gemma3:4b-it-q4_K_M,104.57,87.50,87.85
+gemma3:4b-it-q8_0,107.23,70.80,71.29
+gemma3:27b-it-q4_K_M,74.78,21.84,22.24

@@ -1,0 +1,2 @@
+model: "gemma3:4b-it-q8_0"
+prompt: "Write a short poem about a lonely robot."
