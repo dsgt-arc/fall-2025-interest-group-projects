@@ -9,3 +9,12 @@ venv/
 
 # information retrieval data
 bm25*/
+
+# Jupyter notebook checkpoints
+**/.ipynb_checkpoints/
+
+# datasets
+data/
+**/data/
+cifar-10-batches-py/
+*.tar.gz

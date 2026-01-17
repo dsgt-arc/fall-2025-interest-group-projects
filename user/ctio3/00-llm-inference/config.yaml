@@ -1,0 +1,2 @@
+model: gemma3:1b
+prompt: "write a poem about georgia tech"
