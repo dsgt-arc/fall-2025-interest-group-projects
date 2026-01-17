@@ -1,6 +1,5 @@
 # 03-information-retrieval
 
-https://colab.research.google.com/drive/1QXaj4SjwkGf3em0DojwYX9wiVLyN-Zo3?usp=sharing
 
 For FAISS, the larger [`all-mpnet-base-v2`](https://huggingface.co/sentence-transformers/all-mpnet-base-v2) model achieved marginally higher average top-1 similarity scores (0.7800 vs 0. 7764) but was ~4x as slow as the base model
 
